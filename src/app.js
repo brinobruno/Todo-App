@@ -9,7 +9,7 @@ require('./models/db/database')
 const app = express()
 app.use(express.json())
 
-app.use(express.static(path.join(__dirname, '..', 'public')))
+app.use(express.static(path.join(__dirname, 'views')))
 
 //views
 app.set('views', path.join(__dirname, 'views'))
