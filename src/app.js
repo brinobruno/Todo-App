@@ -1,5 +1,7 @@
 const express = require('express')
+const path = require('path')
 
+const rootRouter = require('./routes/index.routes')
 const checklistRouter = require('./routes/checklists.routes')
 
 require('./models/db/database')
@@ -7,6 +9,10 @@ require('./models/db/database')
 const app = express()
 app.use(express.json())
 
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+
+app.use('/', rootRouter)
 app.use('/checklists', checklistRouter)
 
 app.listen(3333, () => {
