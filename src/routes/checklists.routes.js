@@ -5,15 +5,16 @@ const router = express.Router()
 const Checklist = require('../models/repositories/checklist')
 
 router.post('/', async (request, response) => {
-  const { name } = request.body
+  const { name } = request.body.checklist
+  const checklist = new Checklist({ name })
 
   try {
-    const checklist = await Checklist.create({ name })
-    response.status(201).json(checklist)
+    await checklist.save()
+    response.redirect('/checklists')
   }
 
   catch (error) {
-    response.status(422).json(error)
+    response.status(422).render('checklists/new', { checklists: { ...checklist, error } })
   }
 })
 
@@ -25,6 +26,17 @@ router.get('/', async (request, response) => {
   
   catch (error) {
     response.status(500).render('pages/error', { error: 'Error on showing lists' })
+  }
+})
+
+router.get('/new', async (request, response) => {
+  try {
+    const checklist = new Checklist()
+    response.status(201).render('checklists/new', { checklist: checklist })
+  }
+  
+  catch (error) {
+    response.status(500).render('pages/error', { error: 'Error on loading form' })
   }
 })
 
