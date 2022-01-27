@@ -1,4 +1,5 @@
 const express = require('express')
+const methodOverride = require('method-override')
 const path = require('path')
 
 const rootRouter = require('./routes/index.routes')
@@ -7,8 +8,10 @@ const checklistRouter = require('./routes/checklists.routes')
 require('./models/db/database')
 
 const app = express()
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 app.use(express.static(path.join(__dirname, 'views')))
 
