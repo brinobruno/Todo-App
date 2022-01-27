@@ -19,23 +19,23 @@ router.post('/', async (request, response) => {
 
 router.get('/', async (request, response) => {
   try {
-    const checklist = await Checklist.find({})
-    response.status(200).json(checklist)
+    const checklists = await Checklist.find({})
+    response.status(200).render('checklists/index', { checklists: checklists })
   }
   
   catch (error) {
-    response.status(500).json(error)
+    response.status(500).render('pages/error', { error: 'Error on showing lists' })
   }
 })
 
 router.get('/:id', async (request, response) => {
   try {
-    const checklists = await Checklist.findById(request.params.id)
-    response.status(200).json(checklists)
+    const checklist = await Checklist.findById(request.params.id)
+    response.status(200).render('checklists/show', { checklist: checklist })
   }
   
   catch (error) {
-    response.status(422).json(error)
+    response.status(500).render('pages/error', { error: 'Error on showing TODO lists' })
   }
 })
 
