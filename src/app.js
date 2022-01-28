@@ -24,6 +24,7 @@ app.use('/', rootRouter)
 //routes
 app.use('/checklists', checklistRouter)
 app.use('/checklists', taskRouter.checklistDependent)
+app.use('/tasks', taskRouter.simple)
 
 app.listen(3333, () => {
   console.log('Server is running')
