@@ -80,11 +80,11 @@ router.put('/:id', async (request, response) => {
 router.delete('/:id', async (request, response) => {
   try {
     const checklist = await Checklist.findByIdAndRemove(request.params.id)
-    response.status(200).json(checklist)
+    response.redirect('/checklists')
   }
   
   catch (error) {
-    response.status(422).json(error)
+    response.status(500).render('pages/error', { error: 'Error on attempting to delete checklist' })
   }
 })
 
