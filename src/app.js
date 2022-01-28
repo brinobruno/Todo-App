@@ -4,6 +4,7 @@ const path = require('path')
 
 const rootRouter = require('./routes/index.routes')
 const checklistRouter = require('./routes/checklists.routes')
+const taskRouter = require('./routes/tasks.routes')
 
 require('./models/db/database')
 
@@ -22,6 +23,7 @@ app.use('/', rootRouter)
 
 //routes
 app.use('/checklists', checklistRouter)
+app.use('/checklists', taskRouter.checklistDependent)
 
 app.listen(3333, () => {
   console.log('Server is running')
