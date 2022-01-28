@@ -40,6 +40,17 @@ router.get('/new', async (request, response) => {
   }
 })
 
+router.get('/:id/edit', async (request, response) => {
+  try {
+    const checklist = await Checklist.findById(request.params.id)
+    response.status(201).render('checklists/edit', { checklist: checklist })
+  }
+  
+  catch (error) {
+    response.status(500).render('pages/error', { error: 'Error on displaying todo editing' })
+  }
+})
+
 router.get('/:id', async (request, response) => {
   try {
     const checklist = await Checklist.findById(request.params.id)
@@ -52,15 +63,17 @@ router.get('/:id', async (request, response) => {
 })
 
 router.put('/:id', async (request, response) => {
-  const { name } = request.body
+  const { name } = request.body.checklist
+  const checklist = await Checklist.findById(request.params.id)
 
   try {
-    const checklist = await Checklist.findByIdAndUpdate(request.params.id, { name }, { new: true })
-    response.status(200).json(checklist)
+    await checklist.update({ name })
+    response.redirect('/checklists')
   }
   
   catch (error) {
-    response.status(422).json(error)
+    const errorsFound = error.errorsFound
+    response.status(422).render('checklists/edit', { checklist: {...checklist, errorsFound} })
   }
 })
 
