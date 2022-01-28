@@ -53,7 +53,7 @@ router.get('/:id/edit', async (request, response) => {
 
 router.get('/:id', async (request, response) => {
   try {
-    const checklist = await Checklist.findById(request.params.id)
+    const checklist = await Checklist.findById(request.params.id).populate('tasks')
     response.status(200).render('checklists/show', { checklist: checklist })
   }
   

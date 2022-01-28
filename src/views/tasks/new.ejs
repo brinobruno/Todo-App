@@ -6,7 +6,7 @@
   <div class="container">
     <h1 class="title size-4">New Task</h1>
 
-    <form method="post" action="/checklists/<%= checklist._id  %>/tasks">
+    <form method="post" action="/checklists/<%= checklistId  %>/tasks">
       <div class="field">
         <label class="label">Task title</label>
         <div class="control">
@@ -15,7 +15,7 @@
           type="text" 
           name="task[name]" 
           placeholder="Lista de Tarefas"
-          value="<%= checklist.name  %> "
+          value="<%= task.name  %> "
           >
     
           <% if(task.error && task.error.hasOwnProperty('name')) { %> 
@@ -25,7 +25,7 @@
       </div>
     
       <button type="submit" class="button is-success">Save</button>
-      <a href="/checklists/<%= checklist._id  %>" class="button">Cancel</a>
+      <a href="/checklists/<%= checklistId %>" class="button">Cancel</a>
     </form>
 
   </div>

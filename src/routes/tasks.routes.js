@@ -16,4 +16,22 @@ checklistDependentRoute.get('/:id/tasks/new', async (request, response) => {
   }
 }) 
 
+checklistDependentRoute.post('/:id/tasks', async (request, response) => {
+  const { name } = request.body.task
+  const task = new Task({ name, checklist: request.params.id })
+  
+  try {
+    await task.save()
+    const checklist = await Checklist.findById(request.params.id)
+    checklist.tasks.push(task)
+    await checklist.save()
+    response.redirect(`/checklists/${ request.params.id }`)
+  }
+  
+  catch (error) {
+    const errors = error.errors
+    response.status(422).render('tasks/new', { task: { ...task, errors }, checklistId: request.params.id })
+  }
+}) 
+
 module.exports = { checklistDependent: checklistDependentRoute }
