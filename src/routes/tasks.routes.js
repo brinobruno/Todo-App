@@ -53,6 +53,22 @@ simpleRouter.delete('/:id', async (request, response) => {
   }
 })
 
+simpleRouter.put('/:id', async (request, response) => {
+  const task = await Task.findById(request.params.id)
+
+  try {
+    task.set(request.body.task)
+    await task.save()
+
+    response.status(200).json({ task })
+  } 
+  
+  catch (error) {
+    const errors = error.errors
+    response.status(422).json({ task: { ...errors }}) 
+  }
+})
+
 module.exports = { 
   checklistDependent: checklistDependentRoute,
   simple: simpleRouter
